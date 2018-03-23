@@ -167,12 +167,13 @@ def index():
 @app.route('/all_songs')
 def see_all():
     form = UpdateButtonForm()
+    form_del = DeleteButtonForm()
     all_songs = [] # To be tuple list of title, genre
     songs = Song.query.all()
     for s in songs:
         artist = Artist.query.filter_by(id=s.artist_id).first()
         all_songs.append((s.title,artist.name, s.genre))
-    return render_template('all_songs.html',all_songs=all_songs,form=form)
+    return render_template('all_songs.html',all_songs=all_songs,form=form,formdel=form_del)
 
 @app.route('/all_artists')
 def see_all_artists():
