@@ -88,6 +88,9 @@ class SongForm(FlaskForm):
 class UpdateButtonForm(FlaskForm):
     submit = SubmitField('Update')
 
+class DeleteButtonForm(FlaskForm):
+    submit = SubmitField('Delete')
+
 class UpdateInfoForm(FlaskForm):
     newRating = StringField("What is the new rating of the song?", validators=[Required()])
     submit = SubmitField('Update')
