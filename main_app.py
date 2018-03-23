@@ -181,6 +181,16 @@ def see_all_artists():
     names = [(a.name, len(Song.query.filter_by(artist_id=a.id).all())) for a in artists]
     return render_template('all_artists.html',artist_names=names)
 
+@app.route('/delete/<song>', methods=["GET","POST"])
+def deleteSong(song):
+    print(song)
+    s = Song.query.filter_by(title=song).first() # Just like update!
+    db.session.delete(s)
+    db.session.commit()
+    flash("Successfully deleted {}".format(song))
+    return redirect(url_for('see_all'))
+
+
 @app.route('/update/<song>', methods = ['GET','POST'])
 def updateSong(song):
     print(song)
