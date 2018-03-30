@@ -1,11 +1,5 @@
 # An application about recording favorite songs & info
 
-# 1:Many relationship: Album:Song(s)
-# Many:Many relationship: Artists:Songs
-# TODO: E-R diagram to display
-# TODO: relationship to build (done, ish)
-# TODO: relationship and association table to build
-
 import os
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_script import Manager, Shell
@@ -14,8 +8,6 @@ from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import Required
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand # needs: pip/pip3 install flask-migrate
-# from flask_sqlalchemy import Table, Column, Integer, ForeignKey, String, DateTime, Date, Time
-# from flask_sqlalchemy import relationship, backref
 
 # Configure base directory of app
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -23,20 +15,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Application configurations
 app = Flask(__name__)
 app.debug = True
-app.config['SECRET_KEY'] = 'hardtoguessstringfromsi364thisisnotsupersecurebutitsok'
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/ds9"
+app.config['SECRET_KEY'] = 'hard to guess string'
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/update_example" # The usual with your database URL / database creation
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Set up Flask debug stuff
 manager = Manager(app)
-# moment = Moment(app) # For time # Later
 db = SQLAlchemy(app) # For database use
 
-
-#########
-######### Everything above this line is important/useful setup, not problem-solving.
-#########
 
 ##### Set up Models #####
 
@@ -89,10 +76,10 @@ class UpdateButtonForm(FlaskForm):
     submit = SubmitField('Update')
 
 class DeleteButtonForm(FlaskForm):
-    submit = SubmitField('Delete')
+    pass # replace with code ?????
 
 class UpdateInfoForm(FlaskForm):
-    newRating = StringField("What is the new rating of the song?", validators=[Required()])
+    new_genre = StringField("What is the new genre of the song?", validators=[Required()])
     submit = SubmitField('Update')
 
 ##### Helper functions
@@ -166,8 +153,8 @@ def index():
 
 @app.route('/all_songs')
 def see_all():
-    form = UpdateButtonForm()
-    form_del = DeleteButtonForm()
+    form = # ????
+    form_del = # ?????
     all_songs = [] # To be tuple list of title, genre
     songs = Song.query.all()
     for s in songs:
@@ -183,24 +170,22 @@ def see_all_artists():
 
 @app.route('/delete/<song>', methods=["GET","POST"])
 def deleteSong(song):
-    print(song)
-    s = Song.query.filter_by(title=song).first() # Just like update!
-    db.session.delete(s)
-    db.session.commit()
+    s = 'replace this'#????
+    # ??????
+    # ??????
     flash("Successfully deleted {}".format(song))
     return redirect(url_for('see_all'))
 
 
 @app.route('/update/<song>', methods = ['GET','POST'])
 def updateSong(song):
-    print(song)
-    form = UpdateInfoForm()
+    # ??????
     if form.validate_on_submit():
-        new_rating = form.newRating.data
-        s = Song.query.filter_by(title = song).first()
-        s.rating = new_rating
-        db.session.commit()
-        flash("Updated rating of " + song)
+        new_genre = form.new_genre.data
+        #?????
+        s.genre = new_genre
+        # ?????
+        flash("Updated genre of " + song)
         return redirect(url_for('index'))
     return render_template('update_info.html',song_name = song, form = form)
 
